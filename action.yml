@@ -11,11 +11,11 @@ inputs:
   github-token:
     description: "GitHub token to use to avoid rate limit"
     default: ${{ github.server_url == 'https://github.com' && github.token || '' }}
-# outputs:
-#   version:
-#     description: "Actual version of the protoc compiler environment that has been installed"
-#   path:
-#     description: "Path to where the protoc compiler has been installed"
+outputs:
+  version:
+    description: "Actual version of the protoc compiler environment that has been installed"
+  path:
+    description: "Path to where the protoc compiler has been installed"
 runs:
   using: "node24"
   main: "dist/main.js"

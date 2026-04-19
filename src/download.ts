@@ -1,7 +1,7 @@
 import path from "node:path";
 import { exit } from "node:process";
 
-import { platform, setFailed, info, addPath } from "@actions/core";
+import { platform, setFailed, info, addPath, setOutput } from "@actions/core";
 import { getOctokit } from "@actions/github";
 import { cacheDir, downloadTool, extractZip, find } from "@actions/tool-cache";
 import { satisfies } from "compare-versions";
@@ -141,22 +141,28 @@ export const downloadProtoc = async (
     exit(1);
   }
 
-  info(`Found matching release ${release.tag_name}`);
+  const tagName = release.tag_name;
 
-  info(`Checking local cache for protoc ${release.tag_name}`);
-  let cachedPath = find("protoc", release.tag_name);
+  info(`Found matching release ${tagName}`);
+  info(`Checking local cache for protoc ${tagName}`);
+  let cachedPath = find("protoc", tagName);
 
   if (!cachedPath) {
-    info(`No cache found for protoc ${release.tag_name}, downloading...`);
+    info(`No cache found for protoc ${tagName}, downloading...`);
 
     const url = getAssetUrl(release.assets);
     const downloadPath = await downloadTool(url);
 
     const extractPath = await extractZip(downloadPath);
-    cachedPath = await cacheDir(extractPath, "protoc", release.tag_name);
+    cachedPath = await cacheDir(extractPath, "protoc", tagName);
+  } else {
+    info(`Found cached protoc ${tagName} in ${cachedPath}`);
   }
 
   addPath(path.join(cachedPath, "bin"));
+
+  setOutput("version", tagName);
+  setOutput("path", cachedPath);
 
   return;
 };

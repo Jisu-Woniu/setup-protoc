@@ -1,0 +1,24 @@
+name: "Setup protoc"
+description: "Download protoc compiler and add it to the PATH"
+author: "Jisu-Woniu"
+inputs:
+  version:
+    description: "Version to use. Example: 33, 26.2, latest"
+    default: latest
+  include-pre-releases:
+    description: "Include github pre-releases in latest version calculation"
+    default: "false"
+  github-token:
+    description: "GitHub token to use to avoid rate limit"
+    default: ${{ github.server_url == 'https://github.com' && github.token || '' }}
+# outputs:
+#   version:
+#     description: "Actual version of the protoc compiler environment that has been installed"
+#   path:
+#     description: "Path to where the protoc compiler has been installed"
+runs:
+  using: "node24"
+  main: "dist/main.js"
+branding:
+  icon: "box"
+  color: "blue"

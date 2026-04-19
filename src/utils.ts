@@ -6,6 +6,7 @@ import { trimStart, zip } from "es-toolkit";
  * Split a string once at the first occurrence of a pattern.
  *
  * If the pattern is not found, returns the string and null.
+ *
  * @param s The string to split.
  * @param pattern The pattern to split on.
  */
@@ -19,6 +20,13 @@ const splitOnce = (s: string, pattern: string): [string, string | null] => {
 
 const VERSION_REGEX: Readonly<RegExp> = /^v?\d+(?:\.\d+)*(?:-\S*)?$/;
 
+/**
+ * Compares two version strings.
+ *
+ * @param tag1 The first version string.
+ * @param tag2 The second version string.
+ * @returns True if `tag1` is "less than" `tag2`, i.e., `tag1` is a lower version than `tag2`.
+ */
 const lt = (tag1: string, tag2: string): boolean => {
   assert(VERSION_REGEX.test(tag1));
   assert(VERSION_REGEX.test(tag2));

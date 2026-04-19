@@ -44,8 +44,10 @@ This project is written in TypeScript and built with rolldown. To build the proj
 
 ```bash
 pnpm install
-pnpm type-check && pnpm build
+pnpm build
 ```
+
+This project is formatted with Oxfmt.
 
 ## License
 

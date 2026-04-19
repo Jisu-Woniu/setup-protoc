@@ -3,12 +3,14 @@
   "version": "0.0.0",
   "private": true,
   "description": "A GitHub Action workflow for setting up protoc",
+  "license": "MIT OR Apache-2.0",
   "files": [
     "dist"
   ],
   "type": "module",
   "scripts": {
-    "build": "rolldown -c",
+    "build": "run-p type-check bundle",
+    "bundle": "rolldown -c",
     "fmt": "oxfmt",
     "fmt:check": "oxfmt --check",
     "prepare": "husky",
@@ -26,9 +28,14 @@
     "@types/node": "^24.12.2",
     "@types/semver": "^7.7.1",
     "husky": "^9.1.7",
+    "nano-staged": "^1.0.2",
+    "npm-run-all2": "^8.0.4",
     "oxfmt": "^0.45.0",
     "rolldown": "^1.0.0-rc.16",
     "typescript": "^6.0.3"
+  },
+  "engines": {
+    "node": "^24"
   },
   "packageManager": "pnpm@10.33.0+sha512.10568bb4a6afb58c9eb3630da90cc9516417abebd3fabbe6739f0ae795728da1491e9db5a544c76ad8eb7570f5c4bb3d6c637b2cb41bfdcdb47fa823c8649319"
 }

@@ -15,6 +15,7 @@ type ReleaseAsset = Release["assets"][number];
 
 /**
  * Find the best matching release for the given version.
+ *
  * @param version A semver version string or "latest" to get the latest release.
  * @param includePrereleases Whether to include prereleases in the search.
  * @param octokit An Octokit instance.
@@ -47,6 +48,7 @@ const getRelease = async (version: string, includePrereleases: boolean, octokit:
 
 /**
  * Find the URL of the asset that matches the current platform and architecture.
+ *
  * @param assets Assets list of a release
  * @returns The URL of the matching asset, will fail if no match was found.
  */
@@ -120,6 +122,7 @@ const getAssetUrl = (assets: ReleaseAsset[]) => {
 
 /**
  * Download the protoc binary for the given version.
+ *
  * @param version A semver version string or "latest" to get the latest release.
  * @param includePrereleases Whether to include prereleases in the search.
  * @param githubToken A GitHub token to avoid rate limiting.

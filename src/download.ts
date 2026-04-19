@@ -1,3 +1,4 @@
+import path from "node:path";
 import { exit } from "node:process";
 
 import { platform, setFailed, info, addPath } from "@actions/core";
@@ -7,15 +8,19 @@ import { satisfies } from "compare-versions";
 
 import { maxByTagName } from "./utils";
 
+// Auxiliary types from @actions/github
 type Octokit = ReturnType<typeof getOctokit>;
 type Release = Awaited<ReturnType<Octokit["rest"]["repos"]["getRelease"]>>["data"];
 type ReleaseAsset = Release["assets"][number];
 
-const getRelease = async (
-  version: string,
-  includePrereleases: boolean,
-  octokit: ReturnType<typeof getOctokit>,
-) => {
+/**
+ * Find the best matching release for the given version.
+ * @param version A semver version string or "latest" to get the latest release.
+ * @param includePrereleases Whether to include prereleases in the search.
+ * @param octokit An Octokit instance.
+ * @returns The best matching release, or `undefined` if no release was found.
+ */
+const getRelease = async (version: string, includePrereleases: boolean, octokit: Octokit) => {
   if (!includePrereleases && version === "latest") {
     return (
       await octokit.rest.repos.getLatestRelease({ owner: "protocolbuffers", repo: "protobuf" })
@@ -40,6 +45,11 @@ const getRelease = async (
   }
 };
 
+/**
+ * Find the URL of the asset that matches the current platform and architecture.
+ * @param assets Assets list of a release
+ * @returns The URL of the matching asset, will fail if no match was found.
+ */
 const getAssetUrl = (assets: ReleaseAsset[]) => {
   let nameFilter = null;
 
@@ -108,6 +118,13 @@ const getAssetUrl = (assets: ReleaseAsset[]) => {
   return url;
 };
 
+/**
+ * Download the protoc binary for the given version.
+ * @param version A semver version string or "latest" to get the latest release.
+ * @param includePrereleases Whether to include prereleases in the search.
+ * @param githubToken A GitHub token to avoid rate limiting.
+ * @returns The path to the downloaded protoc binary.
+ */
 export const downloadProtoc = async (
   version: string,
   includePrereleases: boolean,
@@ -136,7 +153,7 @@ export const downloadProtoc = async (
     cachedPath = await cacheDir(extractPath, "protoc", release.tag_name);
   }
 
-  addPath(`${cachedPath}/bin`);
+  addPath(path.join(cachedPath, "bin"));
 
   return;
 };

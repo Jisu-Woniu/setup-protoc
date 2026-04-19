@@ -1,4 +1,4 @@
-name: "Setup protoc"
+name: "Setup Protobuf Compiler (protoc)"
 description: "Download protoc compiler and add it to the PATH"
 author: "Jisu-Woniu"
 inputs:

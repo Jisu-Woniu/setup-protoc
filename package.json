@@ -1,6 +1,6 @@
 {
   "name": "setup-protoc",
-  "version": "0.0.0",
+  "version": "1.0.1",
   "private": true,
   "description": "A GitHub Action workflow for setting up protoc",
   "license": "MIT OR Apache-2.0",
